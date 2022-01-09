@@ -1,31 +1,42 @@
+import classNames from "classnames";
+import { ReactElement } from "react";
 import { WeatherRecord } from "./WeatherTable";
+import "./WeatherCard.css";
 
-export function WeatherCard({ data }: { data: WeatherRecord }) {
+interface WeatherCardProps {
+  data: WeatherRecord;
+  onClick: () => void;
+  isSelected: boolean;
+}
+
+export function WeatherCard({
+  data,
+  onClick,
+  isSelected,
+}: WeatherCardProps): ReactElement {
   const date = new Date(data.dt * 1000);
-  const { morn, day, night, min, max } = data.temp;
+  const { day, night } = data.temp;
 
-  const meanValue = Math.round(((morn + day + night) / 3) * 100) / 100;
+  const cardClassName = classNames({
+    "weather-card": true,
+    selected: isSelected,
+  });
 
   return (
-    <div className="weather-card">
+    <div className={cardClassName} onClick={onClick}>
       <div className="weather-card-left">
-        <div>{date.toDateString()}</div>
+        <div>{date.toLocaleString("en-US", { weekday: "long" })}</div>
         <div>
           <img
-            className="weather-icon"
+            className="weather-card-icon"
             src={`https://openweathermap.org/img/wn/${data.weather[0].icon}.png`}
             alt={data.weather[0].main}
           />
         </div>
       </div>
       <div className="weather-info">
-        <div>Morn: {morn}℃</div>
-        <div>Day: {day}℃</div>
-        <div>Min: {min}℃</div>
-        <div>Max: {max}℃</div>
-        <div>Night: {night}℃</div>
-        <div>Humidity: {data.humidity}%</div>
-        <div>Mean: {meanValue}℃</div>
+        <span className="day-temp">{Math.round(day)}°</span>
+        <span className="night-temp">{Math.round(night)}°</span>
       </div>
     </div>
   );

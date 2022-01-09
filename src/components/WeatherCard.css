@@ -1,0 +1,21 @@
+.selected {
+  background-color: #303134;
+}
+
+.day-temp {
+  color: #e8eaed;
+}
+.night-temp {
+  color: #9aa0a6;
+}
+
+.weather-card {
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 0px 0px 10px 10px;
+}
+
+.weather-card-icon {
+  max-width: 50px;
+  max-height: 50px;
+}

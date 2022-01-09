@@ -8,9 +8,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className={"app"}>
-        <header>Weather</header>
         <WeatherTable />
-        <footer></footer>
       </div>
     </QueryClientProvider>
   );

@@ -1,6 +1,7 @@
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, ReactElement, useRef, useState } from "react";
 import { useQuery } from "react-query";
 import { API_KEY } from "../config";
+import { CityInput } from "./CityInput";
 import { WeatherCards } from "./WeatherCards";
 
 export interface WeatherRecord {
@@ -26,7 +27,7 @@ export interface WeatherApiResponse {
   daily: WeatherRecord[];
 }
 
-export function WeatherTable() {
+export function WeatherTable(): ReactElement {
   const [city, setCity] = useState("Warszawa");
 
   const {
@@ -52,32 +53,20 @@ export function WeatherTable() {
     }
   );
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const handleChagneQuery = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-
-    const value = inputRef.current?.value;
-    if (value) setCity(value);
-  };
-
   return (
     <div className="weather-table">
-      <form onSubmit={handleChagneQuery}>
-        <input type="text" defaultValue="Warszawa" ref={inputRef} />
-        <button type="submit">Search</button>
-      </form>
+      <CityInput onSubmit={setCity} />
       {isLoading ? (
         <div>"Loading..."</div>
       ) : isError ? (
         <div>No city found.</div>
       ) : (
         <>
-          <div>Weather for {city}:</div>
           <WeatherCards
             coord={coord}
             isLoading={isLoading}
             error={error as Error}
+            city={city}
           />
         </>
       )}

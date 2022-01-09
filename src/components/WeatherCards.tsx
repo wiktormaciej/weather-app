@@ -1,19 +1,24 @@
+import { ReactElement, useEffect, useLayoutEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { API_KEY } from "../config";
+import { DailyWeatherDetails } from "./DailyWeatherDetails";
 import { WeatherCard } from "./WeatherCard";
-import { WeatherApiResponse } from "./WeatherTable";
+import { WeatherApiResponse, WeatherRecord } from "./WeatherTable";
 
-export function WeatherCards({
-  coord,
-  isLoading,
-}: {
+interface WeatherCardsProps {
   coord?: {
     lat: number;
     lon: number;
   };
   isLoading: boolean;
   error?: Error;
-}) {
+  city?: string;
+}
+
+export function WeatherCards({
+  coord,
+  city,
+}: WeatherCardsProps): ReactElement | null {
   const { data, isLoading: isDataLoading } = useQuery<WeatherApiResponse>(
     ["weather-data", coord],
     async () => {
@@ -25,20 +30,40 @@ export function WeatherCards({
       }
       return response.json();
     },
-    { enabled: !!coord }
+    {
+      enabled: !!coord,
+      onSuccess: (data) => {
+        setCurrentDay(data.daily[0]);
+      },
+    }
   );
 
-  return (
-    <div className="weather-cards">
-      {isLoading || isDataLoading ? (
-        <div>"Loading..."</div>
-      ) : (
-        data?.daily.map((dailyRecord, id) => {
-          if (id < 5)
-            return <WeatherCard data={dailyRecord} key={dailyRecord.dt} />;
-          return null;
-        })
-      )}
-    </div>
+  const [currentDay, setCurrentDay] = useState<WeatherRecord | undefined>(
+    data?.daily[0]
   );
+
+  if (isDataLoading) return <div>"Loading..."</div>;
+
+  if (data && currentDay)
+    return (
+      <>
+        <DailyWeatherDetails data={currentDay} city={city} />
+        <div className="weather-cards">
+          {data.daily.map((dailyRecord, id) => {
+            if (id < 5)
+              return (
+                <WeatherCard
+                  data={dailyRecord}
+                  key={dailyRecord.dt}
+                  onClick={() => setCurrentDay(dailyRecord)}
+                  isSelected={dailyRecord.dt === currentDay.dt}
+                />
+              );
+            return null;
+          })}
+        </div>
+      </>
+    );
+
+  return null;
 }

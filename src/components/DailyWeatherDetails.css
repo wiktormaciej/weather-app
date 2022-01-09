@@ -1,0 +1,48 @@
+.weather-details {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  border-radius: 10px 10px 0px 0px;
+  background-color: #303134;
+  padding: 20px;
+  text-align: left;
+}
+
+.weather-info {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.weather-temperature,
+.weather-conditions {
+  grid-column: 2 / span 3;
+}
+
+.weather-temperature-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-evenly;
+}
+
+.weather-temperature-content > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.weather-details-icon {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+.weather-details-left {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  display: flex;
+  flex-direction: column;
+  border-right: #202124 solid 2px;
+  height: 100%;
+  padding-right: 10px;
+}

@@ -4,21 +4,19 @@ html {
 
 body {
   text-align: center;
-  background-color: rgb(53, 54, 58);
-  background-image: url("https://upload.wikimedia.org/wikipedia/commons/a/a0/Cloudy_weather_with_mixed_natural_colors.jpg");
+  background-color: #202124;
+  /* background-image: url("https://upload.wikimedia.org/wikipedia/commons/a/a0/Cloudy_weather_with_mixed_natural_colors.jpg"); */
   background-position: center;
   background-repeat: "false";
   padding-top: 10%;
   height: 100%;
-}
-.weather-icon {
-  max-width: 50px;
-  max-height: 50px;
+  color: #e8eaed;
 }
 
 .weather-table {
   padding: 10px;
   width: 100%;
+  max-width: 800px;
 }
 .app {
   align-items: center;
@@ -30,26 +28,7 @@ body {
 .weather-cards {
   display: flex;
   width: 100%;
-  justify-content: space-evenly;
-  flex-direction: column;
   gap: 10px;
-}
-.weather-card {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  background-color: rgba(240, 248, 255, 0.8);
-  border-radius: 10px;
-}
-
-.weather-info {
-  display: flex;
-  justify-content: space-evenly;
+  align-items: stretch;
   flex-wrap: wrap;
-}
-
-.weather-card-left {
-  display: flex;
-  flex-direction: column;
-  flex-grow: 0.5;
 }

@@ -1,0 +1,26 @@
+.city-input {
+  border: none;
+  background-color: transparent;
+  color: hsl(216, 12%, 92%);
+}
+
+.city-input:focus {
+  outline: none;
+}
+
+.city-submit {
+  padding: 0;
+  border: none;
+  background: none;
+  color: #e8eaed;
+  font-size: large;
+  font-weight: 900;
+}
+
+.city-field {
+  background-color: #303134;
+  border-radius: 20px;
+  padding: 10px 20px 10px 20px;
+  display: inline-block;
+  margin-bottom: 20px;
+}
