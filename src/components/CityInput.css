@@ -8,15 +8,6 @@
   outline: none;
 }
 
-.city-submit {
-  padding: 0;
-  border: none;
-  background: none;
-  color: #e8eaed;
-  font-size: large;
-  font-weight: 900;
-}
-
 .city-field {
   background-color: #303134;
   border-radius: 20px;

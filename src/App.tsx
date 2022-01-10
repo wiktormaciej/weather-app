@@ -1,6 +1,6 @@
 import "./App.css";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { WeatherTable } from "./components/WeatherTable";
+import { WeatherCards } from "./components/WeatherCards";
 
 const queryClient = new QueryClient();
 
@@ -8,7 +8,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <div className={"app"}>
-        <WeatherTable />
+        <WeatherCards />
       </div>
     </QueryClientProvider>
   );

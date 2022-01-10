@@ -1,7 +1,7 @@
 import classNames from "classnames";
 import { ReactElement } from "react";
-import { WeatherRecord } from "./WeatherTable";
 import "./WeatherCard.css";
+import { WeatherRecord } from "./WeatherCards";
 
 interface WeatherCardProps {
   data: WeatherRecord;

@@ -1,27 +1,67 @@
-import { FormEvent, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
+import cityList from "../assets/city.list.min.json";
 import "./CityInput.css";
 
-export function CityInput({ onSubmit }: { onSubmit: (value: string) => any }) {
-  const inputRef = useRef<HTMLInputElement>(null);
+export interface CityRecord {
+  name: string;
+  coord: { lon: number; lat: number };
+  id: number;
+}
 
-  const handleChagneQuery = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+const getSuggestions = (cityName: string) => {
+  const result: CityRecord[] = [];
+  for (
+    let i = 0;
+    result.length < 5 && i < (cityList as CityRecord[]).length;
+    i++
+  ) {
+    const currentCityRecord = (cityList as CityRecord[])[i];
+    if (
+      currentCityRecord.name.toLowerCase().startsWith(cityName.toLowerCase())
+    ) {
+      if (!result.find((city) => city.name === currentCityRecord.name))
+        result.push(currentCityRecord);
+    }
+  }
+  return result;
+};
 
-    const value = inputRef.current?.value;
-    if (value) onSubmit(value);
-  };
+interface CityInputProps {
+  onSubmit: (value: CityRecord) => any;
+}
+
+export function CityInput({ onSubmit }: CityInputProps) {
+  const [cityName, setCityName] = useState("Warszawa");
+
+  const suggestions = useMemo(() => getSuggestions(cityName), [cityName]);
+
+  useEffect(() => {
+    const matchingCityRecord = suggestions?.find(
+      (cityRecord) => cityRecord.name.toLowerCase() === cityName.toLowerCase()
+    );
+    if (matchingCityRecord) onSubmit(matchingCityRecord);
+  }, [cityName, suggestions, onSubmit]);
 
   return (
-    <form onSubmit={handleChagneQuery} className="city-field">
+    <div className="city-field">
       <input
         className="city-input"
         type="text"
-        defaultValue="Warszawa"
-        ref={inputRef}
+        value={cityName}
+        onChange={(e) => {
+          e.preventDefault();
+          setCityName(e.target.value);
+        }}
+        list="cities"
       />
-      <button className="city-submit" type="submit">
-        →
-      </button>
-    </form>
+      {suggestions?.length && (
+        <datalist id="cities">
+          {suggestions.map((city) => {
+            if (city.name === cityName) return null;
+            return <option value={city.name} key={city.id} />;
+          })}
+        </datalist>
+      )}
+    </div>
   );
 }

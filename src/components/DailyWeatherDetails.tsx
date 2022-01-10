@@ -1,15 +1,15 @@
 import { ReactElement } from "react";
 import { mean, mode } from "../utils/utils";
-import { WeatherRecord } from "./WeatherTable";
 import "./DailyWeatherDetails.css";
 import { DataField } from "./DataField";
+import { WeatherRecord } from "./WeatherCards";
 
 export function DailyWeatherDetails({
   data,
-  city,
+  cityName,
 }: {
   data: WeatherRecord;
-  city?: string;
+  cityName?: string;
 }): ReactElement {
   const date = new Date(data.dt * 1000);
   const { morn, day, eve, night, min, max } = data.temp;
@@ -20,7 +20,7 @@ export function DailyWeatherDetails({
   return (
     <div className="weather-details">
       <div className="weather-details-left">
-        <h4>{city}</h4>
+        <h4>{cityName}</h4>
         <img
           className="weather-details-icon"
           src={`https://openweathermap.org/img/wn/${data.weather[0].icon}.png`}

@@ -2,18 +2,10 @@ import React from "react";
 import { render, screen, waitFor } from "@testing-library/react";
 import App from "./App";
 import { rest } from "msw";
-import { currentWeatherMock } from "./mocks/currentWeather.mock";
 import { oneCallWeatherMock } from "./mocks/oneCallWeather.mock";
 import { setupServer } from "msw/node";
-import { QueryClient, QueryClientProvider } from "react-query";
 
 const server = setupServer(
-  rest.get(
-    "https://api.openweathermap.org/data/2.5/weather",
-    (req, res, ctx) => {
-      return res(ctx.status(200), ctx.json(currentWeatherMock));
-    }
-  ),
   rest.get(
     "https://api.openweathermap.org/data/2.5/onecall",
     (req, res, ctx) => {

@@ -1,25 +1,45 @@
-import { ReactElement, useEffect, useLayoutEffect, useState } from "react";
+import { ReactElement, useState } from "react";
 import { useQuery } from "react-query";
 import { API_KEY } from "../config";
+import { CityInput, CityRecord } from "./CityInput";
 import { DailyWeatherDetails } from "./DailyWeatherDetails";
 import { WeatherCard } from "./WeatherCard";
-import { WeatherApiResponse, WeatherRecord } from "./WeatherTable";
 
-interface WeatherCardsProps {
-  coord?: {
-    lat: number;
-    lon: number;
+export interface WeatherRecord {
+  dt: number;
+  temp: {
+    morn: number;
+    day: number;
+    night: number;
+    eve: number;
+    min: number;
+    max: number;
   };
-  isLoading: boolean;
-  error?: Error;
-  city?: string;
+  weather: [
+    {
+      icon: string;
+      main: string;
+    }
+  ];
+  humidity: number;
 }
 
-export function WeatherCards({
-  coord,
-  city,
-}: WeatherCardsProps): ReactElement | null {
-  const { data, isLoading: isDataLoading } = useQuery<WeatherApiResponse>(
+export interface WeatherApiResponse {
+  daily: WeatherRecord[];
+}
+
+export function WeatherCards(): ReactElement | null {
+  const [city, setCity] = useState<CityRecord>({
+    name: "Warsaw",
+    coord: {
+      lon: 21.0118,
+      lat: 52.2298,
+    },
+    id: 756135,
+  });
+  const { coord, name } = city;
+
+  const { data, isLoading } = useQuery<WeatherApiResponse>(
     ["weather-data", coord],
     async () => {
       const response = await fetch(
@@ -35,6 +55,7 @@ export function WeatherCards({
       onSuccess: (data) => {
         setCurrentDay(data.daily[0]);
       },
+      retry: false,
     }
   );
 
@@ -42,27 +63,28 @@ export function WeatherCards({
     data?.daily[0]
   );
 
-  if (isDataLoading) return <div>"Loading..."</div>;
-
-  if (data && currentDay)
+  if (currentDay)
     return (
-      <>
-        <DailyWeatherDetails data={currentDay} city={city} />
+      <div className="weather-table">
+        <CityInput onSubmit={setCity} />
+        <DailyWeatherDetails data={currentDay} cityName={name} />
         <div className="weather-cards">
-          {data.daily.map((dailyRecord, id) => {
-            if (id < 5)
-              return (
-                <WeatherCard
-                  data={dailyRecord}
-                  key={dailyRecord.dt}
-                  onClick={() => setCurrentDay(dailyRecord)}
-                  isSelected={dailyRecord.dt === currentDay.dt}
-                />
-              );
-            return null;
-          })}
+          {isLoading && <div>"Loading..."</div>}
+          {data &&
+            data.daily.map((dailyRecord, id) => {
+              if (id < 5)
+                return (
+                  <WeatherCard
+                    data={dailyRecord}
+                    key={dailyRecord.dt}
+                    onClick={() => setCurrentDay(dailyRecord)}
+                    isSelected={dailyRecord.dt === currentDay.dt}
+                  />
+                );
+              return null;
+            })}
         </div>
-      </>
+      </div>
     );
 
   return null;
