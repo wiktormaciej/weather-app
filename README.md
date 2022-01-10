@@ -16,7 +16,7 @@ Mode and mean temperatures are calculated only from morning, day and night tempe
 3. Go to `localhost:3000`
 4. Type in city name that you want to see forecast for (default value is `Warszawa`)
 
-#Issues
+## Issues
 
 The issue with memory limit can occur caused by loading huge JSON file of available cities data. If application crash, please feel free to restart it. : )
 
