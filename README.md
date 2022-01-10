@@ -1,6 +1,6 @@
 # Weather-app
 
-Simple application displaying 5-day weather data for given city.
+Simple application displaying 5-day weather data for given city.\
 Based on https://openweathermap.org/api/one-call-api
 
 ![alt text](./demo.png)
@@ -8,6 +8,17 @@ Based on https://openweathermap.org/api/one-call-api
 ## Notes
 
 Mode and mean temperatures are calculated only from morning, day and night temperatures.
+
+## How to use?
+
+1. Run `yarn install` in the root directory
+2. Run `yarn start` in the root directory
+3. Go to `localhost:3000`
+4. Type in city name that you want to see forecast for (default value is `Warszawa`)
+
+#Issues
+
+The issue with memory limit can occur caused by loading huge JSON file of available cities data. If application crash, please feel free to restart it. : )
 
 ## Available Scripts
 
