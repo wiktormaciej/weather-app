@@ -2,20 +2,22 @@ import { ReactElement } from "react";
 import { mean, mode } from "../utils/utils";
 import "./DailyWeatherDetails.css";
 import { DataField } from "./DataField";
-import { WeatherRecord } from "./WeatherCards";
+import { WeatherRecord } from "./Weather";
+
+interface DailyWeatherDetailsProps {
+  data: WeatherRecord;
+  cityName?: string;
+}
 
 export function DailyWeatherDetails({
   data,
   cityName,
-}: {
-  data: WeatherRecord;
-  cityName?: string;
-}): ReactElement {
+}: DailyWeatherDetailsProps): ReactElement {
   const date = new Date(data.dt * 1000);
-  const { morn, day, eve, night, min, max } = data.temp;
+  const { morn, day, night, min, max } = data.temp;
 
   const meanValue = Math.round(mean([morn, day, night]));
-  const modeValues = mode([morn, day, night, eve]);
+  const modeValues = mode([morn, day, night]);
 
   return (
     <div className="weather-details">
@@ -32,20 +34,20 @@ export function DailyWeatherDetails({
         <h3>Temperature</h3>
         <div className="weather-temperature-content">
           <div>
-            <DataField label="Morning" value={`${morn}℃`} />
-            <DataField label="Day" value={`${day}℃`} />
-            <DataField label="Night" value={`${night}℃`} />
+            <DataField label="Morning" value={`${morn}°`} />
+            <DataField label="Day" value={`${day}°`} />
+            <DataField label="Night" value={`${night}°`} />
           </div>
           <div>
-            <DataField label="Min" value={`${min}℃`} />
-            <DataField label="Max" value={`${max}℃`} />
-            <DataField label="Mean" value={`${meanValue}℃`} />
+            <DataField label="Min" value={`${min}°`} />
+            <DataField label="Max" value={`${max}°`} />
+            <DataField label="Mean" value={`${meanValue}°`} />
             <DataField
               label="Modes"
               value={
                 !modeValues.length
                   ? "-"
-                  : modeValues.map((mode) => `${mode}℃`).join(", ")
+                  : modeValues.map((mode) => `${mode}°`).join(", ")
               }
             />
           </div>

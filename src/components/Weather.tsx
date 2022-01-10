@@ -19,16 +19,20 @@ export interface WeatherRecord {
     {
       icon: string;
       main: string;
+      id: number;
+      description: string;
     }
   ];
   humidity: number;
+  [other: string]: unknown;
 }
 
 export interface WeatherApiResponse {
   daily: WeatherRecord[];
+  [other: string]: unknown;
 }
 
-export function WeatherCards(): ReactElement | null {
+export function Weather(): ReactElement | null {
   const [city, setCity] = useState<CityRecord>({
     name: "Warsaw",
     coord: {

@@ -1,13 +1,12 @@
 import { ReactElement } from "react";
 import "./DataField.css";
 
-export function DataField({
-  label,
-  value,
-}: {
+interface DataFieldProps {
   label: string;
   value: string;
-}): ReactElement {
+}
+
+export function DataField({ label, value }: DataFieldProps): ReactElement {
   return (
     <div className="data-field">
       <h6 className="data-label">{label}</h6>

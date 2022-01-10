@@ -1,4 +1,6 @@
-export const oneCallWeatherMock = {
+import { WeatherApiResponse } from "../components/Weather";
+
+export const oneCallWeatherMock: WeatherApiResponse = {
   lat: 52.2298,
   lon: 21.0118,
   timezone: "Europe/Warsaw",
@@ -132,7 +134,7 @@ export const oneCallWeatherMock = {
         day: -5.54,
         min: -6.65,
         max: -4.04,
-        night: -5.76,
+        night: -6.76,
         eve: -4.79,
         morn: -6.3,
       },

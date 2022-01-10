@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { ReactElement, useEffect, useMemo, useState } from "react";
 import cityList from "../assets/city.list.min.json";
 import "./CityInput.css";
 
@@ -8,7 +8,8 @@ export interface CityRecord {
   id: number;
 }
 
-const getSuggestions = (cityName: string) => {
+const getSuggestions = (cityName: string): CityRecord[] => {
+  // This function is not too efficent since massive city list JSON is loaded, but it's needed for proper autocomplete
   const result: CityRecord[] = [];
   for (
     let i = 0;
@@ -30,7 +31,7 @@ interface CityInputProps {
   onSubmit: (value: CityRecord) => any;
 }
 
-export function CityInput({ onSubmit }: CityInputProps) {
+export function CityInput({ onSubmit }: CityInputProps): ReactElement {
   const [cityName, setCityName] = useState("Warszawa");
 
   const suggestions = useMemo(() => getSuggestions(cityName), [cityName]);
@@ -46,6 +47,7 @@ export function CityInput({ onSubmit }: CityInputProps) {
     <div className="city-field">
       <input
         className="city-input"
+        title="City"
         type="text"
         value={cityName}
         onChange={(e) => {
@@ -58,7 +60,7 @@ export function CityInput({ onSubmit }: CityInputProps) {
         <datalist id="cities">
           {suggestions.map((city) => {
             if (city.name === cityName) return null;
-            return <option value={city.name} key={city.id} />;
+            return <option value={city.name} key={city.id} title={city.name} />;
           })}
         </datalist>
       )}

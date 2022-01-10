@@ -1,12 +1,12 @@
 import classNames from "classnames";
 import { ReactElement } from "react";
 import "./WeatherCard.css";
-import { WeatherRecord } from "./WeatherCards";
+import { WeatherRecord } from "./Weather";
 
 interface WeatherCardProps {
   data: WeatherRecord;
   onClick: () => void;
-  isSelected: boolean;
+  isSelected?: boolean;
 }
 
 export function WeatherCard({
@@ -23,7 +23,7 @@ export function WeatherCard({
   });
 
   return (
-    <div className={cardClassName} onClick={onClick}>
+    <div className={cardClassName} data-testid="card" onClick={onClick}>
       <div className="weather-card-left">
         <div>{date.toLocaleString("en-US", { weekday: "long" })}</div>
         <div>
